@@ -24,7 +24,6 @@ export async function getMe(req, res) {
 
 export async function completeOnboarding(req, res) {
   try {
-    // Only fields covered by the validation rules get through.
     const data = matchedData(req, { locations: ["body"] });
     const user = await profileService.completeOnboarding(req.user.id, data);
     return res.status(200).json({ message: "Profile saved", user });
@@ -33,6 +32,13 @@ export async function completeOnboarding(req, res) {
   }
 }
 
+export async function updateProfile(req, res) {
+  try {
+    const data = matchedData(req, { locations: ["body"] });
+    const user = await profileService.updateProfile(req.user.id, data);
+    return res.status(200).json({ message: "Profile updated", user });
+  } catch (error) {
+    return handleError(res, error, "updateProfile");
 export async function deleteAccount(req, res) {
   try {
     await profileService.deleteUserProfile(req.user.id);
